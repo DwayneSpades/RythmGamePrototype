@@ -56,7 +56,7 @@ function love.update()
     red=math.random(0.1,1)
     green=math.random(0.1,1)
     blue=math.random(0.1,1)
-    table.insert(boxes,createBox(800,math.random(200,400),5))
+    table.insert(boxes,createBox(800-32,math.random(200,400),5))
     lastBeat = timePos
   end
   
