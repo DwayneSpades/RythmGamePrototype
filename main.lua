@@ -1,10 +1,20 @@
 require "libraries/classHandler"
 require "classes/conductor"
-
+require "math/math"
 function love.load()
   
   boxes={}
-  
+  player=object:new
+  {
+    x=0 ,
+    y=0,
+    score=0,
+    pressed=true,
+    beatHit = function(self)
+      
+    end
+    
+  }
   song = love.audio.newSource("music/The Space Between.wav",'stream')
   song:play()
   song:setVolume(0.5)
@@ -15,7 +25,9 @@ function love.load()
   green=math.random(0.3,1)
   blue=math.random(0.3,1)
   
-  beatTime = 60 / 520
+  beatTime = 60 / tracker.bpm
+  drum = beatTime*4
+  
   beatPosition = 0
   lastBeat=0
   
@@ -39,23 +51,24 @@ function createBox(x1,y1,speed1)
   return box
 end
 
-function love.update()
+function love.update(dt)
   
   
   
-  timePos= (song:tell() - startTime)
+  timePos= (song:tell() )
   beatPosition = timePos / beatTime
 
-  if(timePos> lastBeat + beatTime*7.6) then
+  if(timePos>(lastBeat + (drum))) then
     red=math.random(0.3,1)
     green=math.random(0.3,1)
     blue=math.random(0.3,1)
   
-    table.insert(boxes,createBox(800-64,math.random(200,400),10))
-    lastBeat = timePos
+    table.insert(boxes,createBox(800-64,math.random(200,400),5))
+    lastBeat = lastBeat + drum
   end
   
   for i,v in ipairs(boxes) do
+    
     v.x=v.x-v.speed
   end
   
@@ -67,6 +80,7 @@ function love.update()
 end
 
 function love.draw()
+   love.graphics.setColor(red,blue,green)
   for i,v in ipairs(boxes) do
     love.graphics.rectangle("fill",v.x,v.y,32,600)
   end
@@ -83,6 +97,10 @@ function love.draw()
 end
 
 function love.keypressed(key)
+  if (key=="x") then
+    
+  end
+  
   if(key=="escape")then
     love.event.push("quit")
   end

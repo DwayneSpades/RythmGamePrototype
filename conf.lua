@@ -1,0 +1,5 @@
+function con(f)
+  
+  
+  
+end
